@@ -1,0 +1,116 @@
+# =============================================================================
+# Cloud Storage Auditor — Scoring Weights Configuration
+# =============================================================================
+# Each check is assigned a weight reflecting its relative importance to the
+# overall security posture of a cloud object storage resource.
+#
+# Weight justification follows a risk-based approach:
+#   - Weights 20-25: Critical controls whose failure directly enables
+#     unauthorised data access or exfiltration (public exposure, access control).
+#   - Weights 15-20: Important controls that protect data confidentiality and
+#     integrity (encryption, versioning/data protection).
+#   - Weights 10-15: Supporting controls that enable detection, forensics and
+#     compliance (logging, CORS).
+#
+# The total of all weights equals 100, producing a normalised score on a 0-100
+# scale where 100 represents full compliance with all checks.
+# =============================================================================
+
+checks:
+  # --- Access Control (total weight: 25) ---
+  public_access_block:
+    weight: 10
+    description: "Block Public Access / equivalent is enabled"
+    justification: >
+      Prevents accidental public exposure at the account or bucket level.
+      Highest single-check weight because it is the most common root cause
+      of large-scale cloud storage data breaches (Continella et al., 2018;
+      Cable et al., 2021).
+
+  iam_policy_least_privilege:
+    weight: 8
+    description: "IAM / bucket policy follows least-privilege principle"
+    justification: >
+      Overly broad IAM policies (e.g. wildcard principals or actions) are the
+      second most exploited misconfiguration class (Guffey & Li, 2023).
+
+  acl_not_public:
+    weight: 7
+    description: "ACLs do not grant public or AllUsers/AllAuthenticatedUsers access"
+    justification: >
+      Legacy ACLs can override policy-based controls and create unintended
+      public access paths (Bouchet et al., 2020).
+
+  # --- Encryption (total weight: 20) ---
+  encryption_at_rest:
+    weight: 12
+    description: "Server-side encryption is enabled (SSE-S3/SSE-KMS/SSE-C or equivalent)"
+    justification: >
+      Encryption at rest is a baseline confidentiality control required by all
+      major compliance frameworks (CIS, NIST 800-53 SC-28, PCI-DSS 3.4).
+
+  encryption_in_transit:
+    weight: 8
+    description: "HTTPS-only access is enforced via bucket policy or equivalent"
+    justification: >
+      Prevents data interception during transfer. Lower weight than at-rest
+      because TLS is enforced by default in most SDK interactions, but policy
+      enforcement is still required for direct API/URL access.
+
+  # --- Logging & Monitoring (total weight: 15) ---
+  access_logging:
+    weight: 8
+    description: "Server access logging is enabled and configured"
+    justification: >
+      Access logs are essential for incident detection and forensic analysis.
+      Absence of logging was identified as the second most critical
+      misconfiguration enabling undetected breaches (Guffey & Li, 2023).
+
+  audit_trail:
+    weight: 7
+    description: "Cloud audit trail (CloudTrail/Azure Monitor/Cloud Audit Logs) covers storage operations"
+    justification: >
+      Management-plane audit logging enables detection of configuration
+      changes and is required by CIS benchmarks for all three providers.
+
+  # --- Data Protection / Versioning (total weight: 20) ---
+  versioning_enabled:
+    weight: 10
+    description: "Object versioning is enabled"
+    justification: >
+      Versioning protects against accidental or malicious deletion and is a
+      prerequisite for data recovery and ransomware resilience.
+
+  soft_delete_or_mfa_delete:
+    weight: 6
+    description: "Soft delete, Object Lock, or MFA Delete is configured"
+    justification: >
+      Additional deletion protection beyond versioning. MFA Delete (AWS) and
+      immutable storage (Azure/GCP) prevent permanent data destruction even
+      by compromised administrator accounts.
+
+  lifecycle_policy:
+    weight: 4
+    description: "Lifecycle policy is configured for data management"
+    justification: >
+      While not a direct security control, lifecycle policies reduce the
+      attack surface by ensuring obsolete data is automatically removed
+      and storage costs are managed.
+
+  # --- Public Exposure (total weight: 10) ---
+  no_public_objects:
+    weight: 10
+    description: "No individual objects are publicly accessible"
+    justification: >
+      Even when bucket-level controls are correct, individual object
+      permissions or pre-signed URLs can create public exposure.
+      Detection requires object-level sampling.
+
+  # --- CORS (total weight: 10) ---
+  cors_restrictive:
+    weight: 10
+    description: "CORS policy is absent or restrictively configured"
+    justification: >
+      Overly permissive CORS policies (wildcard origins) enable cross-site
+      data exfiltration from browser contexts. Weight reflects the risk of
+      supply-chain attacks via injected scripts (Continella et al., 2018).
