@@ -1,8 +1,6 @@
 """
-tests/environments/localstack/setup_default.py
-
-Creates an AWS S3 bucket on LocalStack with DEFAULT settings (no modifications).
-This tests Experiment 1: What is the out-of-the-box security posture?
+Prepare an AWS S3 bucket on LocalStack with default settings.
+Used as the baseline scenario for security posture evaluation.
 """
 
 import boto3
