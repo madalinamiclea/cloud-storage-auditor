@@ -1,15 +1,13 @@
 """
-tests/environments/gcp/setup_misconfigured.py
+Prepare a GCP Cloud Storage bucket with intentionally weak settings.
+Used to validate detection of common GCP storage misconfigurations.
 
-Creates a GCP Cloud Storage bucket with DELIBERATE MISCONFIGURATIONS.
-Experiment 2: Can the tool detect known GCP-specific vulnerabilities?
-
-Misconfigurations introduced:
-  1. allUsers granted Storage Object Viewer role (public read)
-  2. Uniform bucket-level access DISABLED (legacy ACLs)
-  3. No access logging
-  4. No versioning
-  5. CORS with wildcard origins
+Applied changes:
+    1. allUsers granted Storage Object Viewer role (public read)
+    2. Uniform bucket-level access disabled (legacy ACLs)
+    3. No access logging
+    4. No versioning
+    5. CORS with wildcard origins
 """
 
 import os
