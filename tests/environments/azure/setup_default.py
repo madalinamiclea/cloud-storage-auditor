@@ -1,13 +1,11 @@
 """
-tests/environments/azure/setup_default.py
-
-Creates an Azure Blob Storage container with DEFAULT settings.
-Experiment 1: What is the out-of-the-box security posture on Azure?
+Prepare an Azure Blob Storage container with default settings.
+Used as the baseline scenario for Azure security posture evaluation.
 
 Prerequisites:
-  - Azure CLI logged in (az login) or service principal credentials set
-  - Environment variables: AZURE_SUBSCRIPTION_ID, AZURE_RESOURCE_GROUP, AZURE_STORAGE_ACCOUNT
-    or pass them as arguments.
+    - Azure CLI logged in (az login) or service principal credentials set
+    - Environment variables: AZURE_SUBSCRIPTION_ID, AZURE_RESOURCE_GROUP, AZURE_STORAGE_ACCOUNT
+        or pass them as arguments.
 """
 
 import os
