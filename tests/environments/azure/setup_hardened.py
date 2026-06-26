@@ -1,15 +1,13 @@
 """
-tests/environments/azure/setup_hardened.py
+Prepare an Azure Blob Storage container with hardened settings.
+Used to validate that secure Azure configurations score as expected.
 
-Creates an Azure Blob Storage container with BEST-PRACTICE (CIS-compliant) settings.
-Experiment 3: Does the tool correctly score a fully secured Azure container?
-
-Hardening applied:
-  1. Container access level: Private (no public access)
-  2. Soft delete enabled for blobs and containers
-  3. Versioning enabled
-  4. No CORS (default: blocked)
-  5. Lifecycle management rules configured
+Applied hardening:
+    1. Container access level: Private (no public access)
+    2. Soft delete enabled for blobs and containers
+    3. Versioning enabled
+    4. No CORS (default: blocked)
+    5. Lifecycle management rules configured
 
 Note: Account-level hardening (HTTPS-only, disable shared key access, CMK encryption)
 must be configured via Azure portal or azure-mgmt-storage separately.
