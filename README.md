@@ -17,7 +17,7 @@ The tool evaluates bucket/container configuration with a weighted scoring model 
     - terminal report
     - JSON report (`--output-json`)
     - HTML report (`--output-html`)
- 
+
 
 ## Project Structure
 
@@ -178,8 +178,102 @@ docker run -d -p 4566:4566 localstack/localstack
 python -m pytest tests/test_integration.py -v
 ```
 
+## Framework Comparison with Prowler/ScoutSuite Workflow
+
+Use this workflow to generate the RQ4 comparison tables end-to-end.
+
+1. Prepare folders and scenario naming
+
+```bash
+mkdir -p results/{azure,gcp} \
+                 external/prowler/{azure,gcp} \
+                 external/scoutsuite/{azure,gcp} \
+                 results/tables
+```
+
+Required scenario names are:
+
+- `default`
+- `misconfigured`
+- `hardened`
+
+2. Generate Cloud Storage Auditor JSON reports for each provider/scenario
+
+```bash
+# Azure examples
+python main.py --provider azure --bucket <azure-default-container> \
+    --azure-account <account> --azure-subscription <subscription> --azure-resource-group <rg> \
+    --output-json results/azure/default.json
+
+python main.py --provider azure --bucket <azure-misconfigured-container> \
+    --azure-account <account> --azure-subscription <subscription> --azure-resource-group <rg> \
+    --output-json results/azure/misconfigured.json
+
+python main.py --provider azure --bucket <azure-hardened-container> \
+    --azure-account <account> --azure-subscription <subscription> --azure-resource-group <rg> \
+    --output-json results/azure/hardened.json
+
+# GCP examples
+python main.py --provider gcp --bucket <gcp-default-bucket> --gcp-project <project> \
+    --output-json results/gcp/default.json
+
+python main.py --provider gcp --bucket <gcp-misconfigured-bucket> --gcp-project <project> \
+    --output-json results/gcp/misconfigured.json
+
+python main.py --provider gcp --bucket <gcp-hardened-bucket> --gcp-project <project> \
+    --output-json results/gcp/hardened.json
+```
+
+3. Collect Prowler outputs for the same provider/scenario pairs
+
+Accepted file formats by the comparison module:
+
+- CSV: `external/prowler/<provider>/<scenario>.csv`
+- JSON: `external/prowler/<provider>/<scenario>.json`
+
+If you use the provided Docker image for Azure Prowler runs:
+
+```bash
+docker build -t cloud-storage-auditor/prowler-az -f Dockerfile.prowler-az .
+docker run --rm cloud-storage-auditor/prowler-az prowler --version
+docker run --rm cloud-storage-auditor/prowler-az az version
+```
+
+Then run your Prowler scans and store/rename the outputs to the expected pattern above.
+
+4. Collect ScoutSuite outputs for the same provider/scenario pairs
+
+Required file format:
+
+- `external/scoutsuite/<provider>/<scenario>.json`
+
+Run ScoutSuite normally, then copy/rename each scenario result to match the expected path.
+
+5. Run the framework comparison script
+
+```bash
+python comparison/generate_rq4_table.py \
+    --ours-root results \
+    --prowler-root external/prowler \
+    --scoutsuite-root external/scoutsuite \
+    --tools prowler scoutsuite \
+    --output-csv results/tables/rq4_comparison.csv \
+    --output-md results/tables/rq4_comparison.md
+```
+
+6. Validate generated artifacts
+
+```bash
+ls -lh results/tables/rq4_comparison.csv results/tables/rq4_comparison.md
+```
+
+If no rows are generated, check naming and paths first:
+
+- `results/<provider>/<scenario>.json`
+- `external/prowler/<provider>/<scenario>.csv` or `.json`
+- `external/scoutsuite/<provider>/<scenario>.json`
+
 ## Notes
 
 - `results/` and `external/` are intended for generated/experimental artifacts.
 - Scoring and CIS mappings are configurable and can be tuned for your evaluation scenario.
-
