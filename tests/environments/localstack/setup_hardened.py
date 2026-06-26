@@ -1,18 +1,16 @@
 """
-tests/environments/localstack/setup_hardened.py
+Prepare an AWS S3 bucket on LocalStack with hardened settings aligned to CIS guidance.
+Used to validate that secure configurations score as expected.
 
-Creates an AWS S3 bucket on LocalStack with BEST-PRACTICE (CIS-compliant) settings.
-This tests Experiment 3: Does the tool give maximum score for a properly secured bucket?
-
-Hardening applied:
-  1. Block Public Access ENABLED (all four settings)
-  2. Private ACL
-  3. Encryption enabled (SSE-S3, AES256)
-  4. HTTPS-only bucket policy (deny aws:SecureTransport=false)
-  5. Server access logging enabled
-  6. Versioning enabled
-  7. Lifecycle rules configured
-  8. No CORS (default = blocked)
+Applied hardening:
+    1. Block Public Access enabled (all four settings)
+    2. Private ACL
+    3. Encryption enabled (SSE-S3, AES256)
+    4. HTTPS-only bucket policy (deny aws:SecureTransport=false)
+    5. Server access logging enabled
+    6. Versioning enabled
+    7. Lifecycle rules configured
+    8. No CORS (default = blocked)
 """
 
 import json
