@@ -1,18 +1,16 @@
 """
-tests/environments/localstack/setup_misconfigured.py
+Prepare an AWS S3 bucket on LocalStack with intentionally weak settings.
+Used to validate detection of common storage misconfigurations.
 
-Creates an AWS S3 bucket on LocalStack with DELIBERATE MISCONFIGURATIONS.
-This tests Experiment 2: Can the tool detect known vulnerabilities?
-
-Misconfigurations introduced:
-  1. Block Public Access DISABLED
-  2. Public-read ACL
-  3. Wildcard bucket policy (allows any principal s3:GetObject)
-  4. No encryption enforcement
-  5. No server access logging
-  6. Versioning disabled
-  7. No lifecycle policy
-  8. Overly permissive CORS (wildcard origin)
+Applied changes:
+    1. Block Public Access disabled
+    2. Public-read ACL
+    3. Wildcard bucket policy (allows any principal s3:GetObject)
+    4. No encryption enforcement
+    5. No server access logging
+    6. Versioning disabled
+    7. No lifecycle policy
+    8. Overly permissive CORS (wildcard origin)
 """
 
 import json
