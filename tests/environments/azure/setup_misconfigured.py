@@ -1,15 +1,13 @@
 """
-tests/environments/azure/setup_misconfigured.py
+Prepare an Azure Blob Storage container with intentionally weak settings.
+Used to validate detection of common Azure storage misconfigurations.
 
-Creates an Azure Blob Storage container with DELIBERATE MISCONFIGURATIONS.
-Experiment 2: Can the tool detect known Azure-specific vulnerabilities?
-
-Misconfigurations introduced:
-  1. Container public access set to 'blob' (individual blob public access)
-  2. No versioning
-  3. No soft delete
-  4. CORS with wildcard origins
-  5. No lifecycle management
+Applied changes:
+    1. Container public access set to 'blob' (individual blob public access)
+    2. No versioning
+    3. No soft delete
+    4. CORS with wildcard origins
+    5. No lifecycle management
 
 Note: Some misconfigurations (like disabling HTTPS-only) require account-level
 changes via azure-mgmt-storage. This script focuses on container-level settings.
