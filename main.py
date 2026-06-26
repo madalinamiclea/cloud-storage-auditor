@@ -71,7 +71,6 @@ def create_parser() -> argparse.ArgumentParser:
     output_group.add_argument("--no-color", action="store_true", help="Disable coloured terminal output")
     output_group.add_argument("--quiet", "-q", action="store_true", help="Suppress terminal report (use with --output-json/--output-html)")
 
-    # Misc
     parser.add_argument("--verbose", "-v", action="store_true", help="Enable verbose/debug logging")
     parser.add_argument("--sample-size", type=int, default=10, help="Number of objects to sample for public exposure check (default: 10)")
 
@@ -126,7 +125,7 @@ def main():
         provider = create_provider(args)
         engine = ScoringEngine()
 
-        # Checking target buckets to audit
+        # Resolving target buckets to audit
         if args.all_buckets:
             buckets = provider.list_buckets()
             bucket_names = [b.name for b in buckets]
@@ -150,7 +149,6 @@ def main():
                 if not args.quiet:
                     print_cli_report(audit_result, use_color=not args.no_color)
 
-                # Here we save the reports
                 if args.output_json:
                     if len(bucket_names) > 1:
                         base = Path(args.output_json)
