@@ -1,17 +1,15 @@
 """
-tests/environments/gcp/setup_hardened.py
+Prepare a GCP Cloud Storage bucket with hardened settings aligned to CIS guidance.
+Used to validate that secure GCP configurations score as expected.
 
-Creates a GCP Cloud Storage bucket with BEST-PRACTICE (CIS-compliant) settings.
-Experiment 3: Does the tool correctly score a fully secured GCP bucket?
-
-Hardening applied:
-  1. Uniform bucket-level access ENABLED
-  2. Public access prevention ENFORCED
-  3. Versioning enabled
-  4. Access logging to a dedicated log bucket
-  5. Retention policy configured
-  6. Lifecycle rules configured
-  7. No CORS (default: blocked)
+Applied hardening:
+    1. Uniform bucket-level access enabled
+    2. Public access prevention enforced
+    3. Versioning enabled
+    4. Access logging to a dedicated log bucket
+    5. Retention policy configured
+    6. Lifecycle rules configured
+    7. No CORS (default: blocked)
 """
 
 import os
