@@ -1,12 +1,10 @@
 """
-tests/environments/gcp/setup_default.py
-
-Creates a GCP Cloud Storage bucket with DEFAULT settings.
-Experiment 1: What is the out-of-the-box security posture on GCP?
+Prepare a GCP Cloud Storage bucket with default settings.
+Used as the baseline scenario for GCP security posture evaluation.
 
 Prerequisites:
-  - gcloud CLI authenticated (gcloud auth application-default login)
-  - Environment variable: GCP_PROJECT_ID
+    - gcloud CLI authenticated (gcloud auth application-default login)
+    - Environment variable: GCP_PROJECT_ID
 """
 
 import os
