@@ -81,7 +81,7 @@ def check_soft_delete_or_mfa_delete(config: VersioningConfig, provider: str, buc
 
     return result
 
-# Checkng if lifecycle management rules are configured or not
+# Checking if lifecycle management rules are configured or not
 def check_lifecycle_policy(config: VersioningConfig, provider: str, bucket_name: str, weight: float, cis: dict) -> CheckResult:
     result = CheckResult(
         check_id="lifecycle_policy",
