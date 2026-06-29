@@ -1,11 +1,12 @@
 """
 Scoring engine
 """
+from __future__ import annotations
 
 import yaml
 import os
 import logging
-from __future__ import annotations
+
 from pathlib import Path
 from typing import Optional
 from providers.base import BucketConfig
