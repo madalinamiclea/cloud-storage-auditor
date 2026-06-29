@@ -2,9 +2,9 @@
 Google Cloud Storage provider implementation
 Connects via google-cloud-storage SDK
 """
-
-import logging
 from __future__ import annotations
+import logging
+
 from typing import Optional
 from google.cloud import storage as gcs
 from google.cloud.storage import Bucket
