@@ -2,8 +2,9 @@
 Azure Blob Storage provider implementation.
 Connects via azure-storage-blob and azure-mgmt-storage SDKs.
 """
-import logging
 from __future__ import annotations
+
+import logging
 from typing import Optional
 from azure.identity import DefaultAzureCredential, ClientSecretCredential
 from azure.mgmt.storage import StorageManagementClient
