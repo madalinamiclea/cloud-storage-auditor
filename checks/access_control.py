@@ -1,7 +1,3 @@
-"""
-Access control security checks.
-Covers: Block Public Access, IAM/bucket policy least privilege, ACL analysis.
-"""
 from __future__ import annotations
 from providers.base import AccessConfig
 from checks.base import CheckResult, CheckStatus, Severity, CISReference
