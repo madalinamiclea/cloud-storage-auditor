@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 import argparse
 import csv
 import json
 
-from __future__ import annotations
 from pathlib import Path
 from checks.base import AuditResult, CheckResult, CheckStatus, Severity, CISReference
 from comparison.vs_existing_tools import (
